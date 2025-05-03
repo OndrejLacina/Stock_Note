@@ -1,0 +1,120 @@
+/* navigace - menu */
+.nav {
+  background-color: #333;
+  padding: 10px 20px;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #ddd;
+}
+
+.wrapper {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.input-area {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  position: relative;
+}
+
+.textarea {
+  background: #fff;
+  border-radius: 12px;
+  resize: none;
+  padding: 12px;
+  border: none;
+  outline: none;
+  height: auto;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background: #2db0ae;
+  color: white;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.submit-button:hover {
+  background: #24918f;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card {
+  background: white;
+  padding: 12px;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action-btn {
+  font-size: 12px;
+  padding: 4px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.action-like {
+  border: 2px solid #007bff;
+  color: #007bff;
+}
+
+.action-like-active,
+.action-like-actvie:hover,
+.action-like:hover {
+  background: #0056b3;
+  color: white;
+}
+
+.action-delete {
+  border: 2px solid #dc3545;
+  color: #dc3545;
+}
+
+.action-delete:hover {
+  background: #c82333;
+  color: white;
+}

@@ -8,11 +8,11 @@ function Denik({ prispevky, pridejPrispevek, smazPrispevek }) {
       <h2>Deník</h2>
       <FormularAkcie onSubmitForm={pridejPrispevek} />
       <div className="list">
-        {prispevky.map((prispevek, indexPrispevku) => (
+        {prispevky.map((prispevek, index) => (
           <PrispevekAkcie
-            key={indexPrispevku}
+            key={index}
             text={prispevek}
-            onDelete={() => smazPrispevek(indexPrispevku)}
+            onDelete={() => smazPrispevek(index)}
           />
         ))}
       </div>

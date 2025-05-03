@@ -5,8 +5,8 @@ function Portfolio({ prispevky }) {
     <div>
       <h2>Portfolio</h2>
       <ul>
-        {prispevky.map((prispevek, indexPrispevku) => (
-          <li key={indexPrispevku}>{prispevek}</li>
+        {prispevky.map((prispevek, index) => (
+          <li key={index}>{prispevek}</li>
         ))}
       </ul>
     </div>

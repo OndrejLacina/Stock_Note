@@ -1,5 +1,7 @@
-import React, { Component } from "react";
-import { createRoot } from "react-dom/client";
+import React, { useState } from "react";
+// import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import FormularAkcie from "./components/FormularAkcie";
 import PrispevekAkcie from "./components/PrispevekAkcie";
 

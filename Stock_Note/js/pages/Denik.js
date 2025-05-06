@@ -2,7 +2,13 @@ import React from "react";
 import FormularAkcie from "../components/FormularAkcie";
 import PrispevekAkcie from "../components/PrispevekAkcie";
 
-function Denik({ prispevky, pridejPrispevek, smazPrispevek }) {
+function Denik({
+  prispevky,
+  pridejPrispevek,
+  smazPrispevek,
+  pridejOperaci,
+  smazOperaci,
+}) {
   return (
     <div>
       <h2>Deník</h2>
@@ -11,8 +17,11 @@ function Denik({ prispevky, pridejPrispevek, smazPrispevek }) {
         {prispevky.map((prispevek, index) => (
           <PrispevekAkcie
             key={index}
-            text={prispevek}
+            prispevek={prispevek}
+            indexPrispevku={index}
             onDelete={() => smazPrispevek(index)}
+            onAddOperace={pridejOperaci}
+            onDeleteOperace={smazOperaci}
           />
         ))}
       </div>

@@ -2,13 +2,19 @@ import React from "react";
 
 function Portfolio({ prispevky }) {
   return (
-    <div>
+    <div className="container mt-5">
       <h2>Portfolio</h2>
-      <ul>
-        {prispevky.map((prispevek, index) => (
-          <li key={index}>{prispevek}</li>
-        ))}
-      </ul>
+      {prispevky.length === 0 ? (
+        <p>Nemáte žádné přidané akcie</p>
+      ) : (
+        <ul className="list-group">
+          {prispevky.map((prispevek, index) => (
+            <li key={index} className="list-group-item">
+              {prispevek.ticker} - počet operací : {prispevek.operace.length}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

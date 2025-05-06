@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 // import ButtonSmazatOperaci nepoužívám zatím
 
-function Operations() {
+function Operations({
+  operace,
+  indexPrispevku,
+  onAddOperace,
+  onDeleteOperace,
+}) {
   // Odsud počítám průměr a vytváří se mi jednotlivé řádky transakcí
-  const [operace, setOperace] = useState([]);
   const [novaOperace, setNovaOperace] = useState({
     cena: "",
     kusy: "",
@@ -16,18 +20,19 @@ function Operations() {
     setNovaOperace({ ...novaOperace, [name]: value });
   };
 
-  const pridejOperaci = () => {
-    const { cena, kusy, poplatek, datum } = novaOperace;
-    if (!cena || !kusy) return;
-    setOperace([
-      ...operace,
-      {
-        cena: parseFloat(cena),
-        kusy: parseFloat(kusy),
-        poplatek: parseFloat(poplatek) || 0,
-        datum,
-      },
-    ]);
+  const pridejNovouOperaci = () => {
+    if (!novaOperace.cena || !novaOperace.kusy) {
+      alert("Vyplň cenu a počet kusů!");
+      return;
+    }
+
+    onAddOperace(indexPrispevku, {
+      cena: parseFloat(novaOperace.cena),
+      kusy: parseFloat(novaOperace.kusy),
+      poplatek: parseFloat(novaOperace.poplatek) || 0,
+      datum: novaOperace.datum || "-",
+    });
+
     setNovaOperace({ cena: "", kusy: "", poplatek: "", datum: "" });
   };
 
@@ -46,10 +51,6 @@ function Operations() {
       }
     });
     return celkemKusu > 0 ? (totalNaklady / celkemKusu).toFixed(2) : "-";
-  };
-
-  const smazOperaci = (idx) => {
-    setOperace(operace.filter((_, i) => i !== idx));
   };
 
   return (
@@ -97,7 +98,7 @@ function Operations() {
           />
         </div>
         <div className="col-auto">
-          <button className="btn btn-primary" onClick={pridejOperaci}>
+          <button className="btn btn-primary" onClick={pridejNovouOperaci}>
             Přidat
           </button>
         </div>
@@ -123,7 +124,7 @@ function Operations() {
               <td>{op.poplatek} Kč</td>
               <td>
                 <button
-                  onClick={() => smazOperaci(index)}
+                  onClick={() => onDeleteOperace(indexPrispevku, index)}
                   className="btn btn-sm btn-danger"
                 >
                   Smazat

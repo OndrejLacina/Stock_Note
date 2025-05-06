@@ -12,18 +12,50 @@ import NotFound from "./pages/NotFound";
 function App() {
   const [prispevky, setPrispevky] = useState([]);
 
-  const pridejPrispevek = (zprava) => {
-    setPrispevky([...prispevky, zprava]);
+  const pridejPrispevek = (ticker) => {
+    if (!ticker.trim()) {
+      alert("Prosím vyplň název akcie!");
+      return;
+    }
+    setPrispevky([...prispevky, { ticker: ticker, operace: [] }]);
   };
 
   const smazPrispevek = (index) => {
-    setPrispevky(prispevky.filter((prispevek, indexP) => indexP !== index));
+    setPrispevky(prispevky.filter((_, indexP) => indexP !== index));
+  };
+
+  const pridejOperaci = (indexPrispevku, novaOperace) => {
+    setPrispevky((prevPrispevky) =>
+      prevPrispevky.map((prispevek, index) => {
+        if (index === indexPrispevku) {
+          return {
+            ...prispevek,
+            operace: [...prispevek.operace, novaOperace],
+          };
+        }
+        return prispevek;
+      })
+    );
+  };
+
+  const smazOperaci = (indexPrispevku, indexOperace) => {
+    setPrispevky(
+      prispevky.map((prispevek, index) => {
+        if (index === indexPrispevku) {
+          return {
+            ...prispevek,
+            operace: prispevek.operace.filter((_, i) => i !== indexOperace),
+          };
+        }
+        return prispevek;
+      })
+    );
   };
 
   return (
     <BrowserRouter>
       <Navigace />
-      <div>
+      <div className="container mt-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -37,6 +69,8 @@ function App() {
                 prispevky={prispevky}
                 pridejPrispevek={pridejPrispevek}
                 smazPrispevek={smazPrispevek}
+                pridejOperaci={pridejOperaci}
+                smazOperaci={smazOperaci}
               />
             }
           />

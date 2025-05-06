@@ -15,9 +15,22 @@ function Operations({
     datum: "",
   });
 
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+
+  //   setNovaOperace({ ...novaOperace, [name]: value });
+  // };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setNovaOperace({ ...novaOperace, [name]: value });
+
+    setNovaOperace((prev) => ({
+      ...prev,
+      [name]:
+        name === "cena" || name === "kusy" || name === "poplatek"
+          ? parseFloat(value)
+          : value,
+    }));
   };
 
   const pridejNovouOperaci = () => {
@@ -27,9 +40,9 @@ function Operations({
     }
 
     onAddOperace(indexPrispevku, {
-      cena: parseFloat(novaOperace.cena),
-      kusy: parseFloat(novaOperace.kusy),
-      poplatek: parseFloat(novaOperace.poplatek) || 0,
+      cena: novaOperace.cena, //před tím jsem tu měl cena: parseFloat(novaOperace.cena),
+      kusy: novaOperace.kusy,
+      poplatek: novaOperace.poplatek || 0,
       datum: novaOperace.datum || "-",
     });
 
@@ -37,22 +50,24 @@ function Operations({
   };
 
   const vypocitejPrumer = () => {
-    let nakupniCena = 0;
-    let celkemKusu = 0;
-    let celkemPoplatku = 0;
+    let nakupniCena = 0; // celkové náklady na nákupy
+    let celkemKusu = 0; // aktuální počet kusů
+    let celkemPoplatku = 0; // součet všech poplatků
 
     operace.forEach(({ cena, kusy, poplatek }) => {
       if (kusy > 0) {
+        // Nákup: započítáme cenu i poplatek
         nakupniCena += cena * kusy + poplatek;
         celkemKusu += kusy;
         celkemPoplatku += poplatek;
       } else {
-        // při prodeji snížíme "celkemKusu" a celkové náklady
+        // Prodej
         celkemKusu += kusy;
         nakupniCena += poplatek;
       }
     });
 
+    // Výpočet průměrné ceny: celkové náklady děleno počet kusů
     const prumernaCena =
       celkemKusu > 0 ? (nakupniCena / celkemKusu).toFixed(2) : "-";
 

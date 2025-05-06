@@ -37,25 +37,44 @@ function Operations({
   };
 
   const vypocitejPrumer = () => {
-    let totalNaklady = 0;
+    let nakupniCena = 0;
     let celkemKusu = 0;
+    let celkemPoplatku = 0;
 
     operace.forEach(({ cena, kusy, poplatek }) => {
       if (kusy > 0) {
-        totalNaklady += cena * kusy + poplatek;
+        nakupniCena += cena * kusy + poplatek;
         celkemKusu += kusy;
+        celkemPoplatku += poplatek;
       } else {
         // při prodeji snížíme "celkemKusu" a celkové náklady
-        totalNaklady += poplatek;
         celkemKusu += kusy;
+        nakupniCena += poplatek;
       }
     });
-    return celkemKusu > 0 ? (totalNaklady / celkemKusu).toFixed(2) : "-";
+
+    const prumernaCena =
+      celkemKusu > 0 ? (nakupniCena / celkemKusu).toFixed(2) : "-";
+
+    return {
+      prumernaCena,
+      celkemKusu,
+      celkemPoplatku,
+    };
   };
 
   return (
     <div>
-      <h5 className="mb-3">Průměrná nákupní cena: {vypocitejPrumer()}</h5>
+      <div>
+        <p className="mb-3">
+          Průměrná nákupní cena: {vypocitejPrumer().prumernaCena}
+        </p>
+        <p className="mb-3">Počet kusů: {vypocitejPrumer().celkemKusu} </p>
+        <p className="mb-3">
+          Součet poplatků: {vypocitejPrumer().celkemPoplatku}
+        </p>
+      </div>
+
       <h6>Nová operace</h6>
       <div className="row g-2 align-items-center mb-3">
         <div className="col">

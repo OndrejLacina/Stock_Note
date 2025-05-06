@@ -12,7 +12,7 @@ function Home() {
         <Link to="/portfolio" className="btn btn-success m-2">
           Přejít do Portfolia
         </Link>
-        <Link to="/notebook" className="btn btn-primary m-2">
+        <Link to="/denik" className="btn btn-primary m-2">
           Přejít do Deníku
         </Link>
       </p>

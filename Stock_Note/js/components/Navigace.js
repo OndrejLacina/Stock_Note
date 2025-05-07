@@ -5,10 +5,24 @@ function Navigace() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
-        <Link className="navbar-brand" to="/">
+        <Link to="/" className="navbar-brand">
           Stock Note
         </Link>
-        <div className="collapse navbar-collapse">
+
+        {/* Tlačítko pro sbalení (hamburger) */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <Link to="/portfolio" className="nav-link">
@@ -18,6 +32,11 @@ function Navigace() {
             <li className="nav-item">
               <Link to="/denik" className="nav-link">
                 Deník
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/vyhledavani" className="nav-link">
+                Vyhledávání
               </Link>
             </li>
             <li className="nav-item">

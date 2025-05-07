@@ -6,6 +6,7 @@ import Navigace from "./components/Navigace";
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
 import Denik from "./pages/Denik";
+import SearchAPI from "./pages/SearchAPI";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
@@ -74,6 +75,7 @@ function App() {
               />
             }
           />
+          <Route path="/vyhledavani" element={<SearchAPI />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

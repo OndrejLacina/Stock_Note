@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 // import ButtonSmazatOperaci nepoužívám zatím
 
-function Operations() {
+function Operations({
+  operace,
+  indexPrispevku,
+  onAddOperace,
+  onDeleteOperace,
+}) {
   // Odsud počítám průměr a vytváří se mi jednotlivé řádky transakcí
-  const [operace, setOperace] = useState([]);
   const [novaOperace, setNovaOperace] = useState({
     cena: "",
     kusy: "",
@@ -11,50 +15,81 @@ function Operations() {
     datum: "",
   });
 
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+
+  //   setNovaOperace({ ...novaOperace, [name]: value });
+  // };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setNovaOperace({ ...novaOperace, [name]: value });
+
+    setNovaOperace((prev) => ({
+      ...prev,
+      [name]:
+        name === "cena" || name === "kusy" || name === "poplatek"
+          ? parseFloat(value)
+          : value,
+    }));
   };
 
-  const pridejOperaci = () => {
-    const { cena, kusy, poplatek, datum } = novaOperace;
-    if (!cena || !kusy) return;
-    setOperace([
-      ...operace,
-      {
-        cena: parseFloat(cena),
-        kusy: parseFloat(kusy),
-        poplatek: parseFloat(poplatek) || 0,
-        datum,
-      },
-    ]);
+  const pridejNovouOperaci = () => {
+    if (!novaOperace.cena || !novaOperace.kusy) {
+      alert("Vyplň cenu a počet kusů!");
+      return;
+    }
+
+    onAddOperace(indexPrispevku, {
+      cena: novaOperace.cena, //před tím jsem tu měl cena: parseFloat(novaOperace.cena),
+      kusy: novaOperace.kusy,
+      poplatek: novaOperace.poplatek || 0,
+      datum: novaOperace.datum || "-",
+    });
+
     setNovaOperace({ cena: "", kusy: "", poplatek: "", datum: "" });
   };
 
   const vypocitejPrumer = () => {
-    let totalNaklady = 0;
-    let celkemKusu = 0;
+    let nakupniCena = 0; // celkové náklady na nákupy
+    let celkemKusu = 0; // aktuální počet kusů
+    let celkemPoplatku = 0; // součet všech poplatků
 
     operace.forEach(({ cena, kusy, poplatek }) => {
       if (kusy > 0) {
-        totalNaklady += cena * kusy + poplatek;
+        // Nákup: započítáme cenu i poplatek
+        nakupniCena += cena * kusy + poplatek;
         celkemKusu += kusy;
+        celkemPoplatku += poplatek;
       } else {
-        // při prodeji snížíme "celkemKusu" a celkové náklady
-        totalNaklady += poplatek;
+        // Prodej
         celkemKusu += kusy;
+        nakupniCena += poplatek;
       }
     });
-    return celkemKusu > 0 ? (totalNaklady / celkemKusu).toFixed(2) : "-";
-  };
 
-  const smazOperaci = (idx) => {
-    setOperace(operace.filter((_, i) => i !== idx));
+    // Výpočet průměrné ceny: celkové náklady děleno počet kusů
+    const prumernaCena =
+      celkemKusu > 0 ? (nakupniCena / celkemKusu).toFixed(2) : "-";
+
+    return {
+      prumernaCena,
+      celkemKusu,
+      celkemPoplatku,
+    };
   };
 
   return (
     <div>
-      <h5 className="mb-3">Průměrná nákupní cena: {vypocitejPrumer()}</h5>
+      <div>
+        <p className="mb-3">
+          Průměrná nákupní cena: {vypocitejPrumer().prumernaCena}
+        </p>
+        <p className="mb-3">Počet kusů: {vypocitejPrumer().celkemKusu} </p>
+        <p className="mb-3">
+          Součet poplatků: {vypocitejPrumer().celkemPoplatku}
+        </p>
+      </div>
+
       <h6>Nová operace</h6>
       <div className="row g-2 align-items-center mb-3">
         <div className="col">
@@ -97,7 +132,7 @@ function Operations() {
           />
         </div>
         <div className="col-auto">
-          <button className="btn btn-primary" onClick={pridejOperaci}>
+          <button className="btn btn-primary" onClick={pridejNovouOperaci}>
             Přidat
           </button>
         </div>
@@ -123,7 +158,7 @@ function Operations() {
               <td>{op.poplatek} Kč</td>
               <td>
                 <button
-                  onClick={() => smazOperaci(index)}
+                  onClick={() => onDeleteOperace(indexPrispevku, index)}
                   className="btn btn-sm btn-danger"
                 >
                   Smazat

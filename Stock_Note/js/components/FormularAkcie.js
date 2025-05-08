@@ -22,7 +22,10 @@ function FormularAkcie({ onSubmitForm }) {
   return (
     <>
       {/* na potvrzení tohoto formuláře aka "event uživatele" aka "kliknutí na "odesliSpravu" aka "onSubmit" se vykoná vše, co je ve funkci odesliSpravu (respektive vložení akcie -> vytvoření nového komponentu, kde pak budu dávat transakce akcií => TO-DO??) */}
-      <form className="input-area" onSubmit={(event) => odesliZpravu(event)}>
+      <form
+        className="input-area card shadow mb-4"
+        onSubmit={(event) => odesliZpravu(event)}
+      >
         {/* napisSpravu je funkce, kterou si tvořím výše, pro tento Formulář komponent */}
         <InputVeFormulari valueProp={zprava} onChangeText={napisZpravu} />{" "}
         {/* nefungovalo mi zde zachytávání zprávy, že byla odeslaná "odosliSpravu", protože ButtonPridatAkcii byl v divu pod - bud to nastylovat, ať je to jakoby mimo příspěvek nebo to naprogramovat, aby to bylo vedle v divu, ale dělalo to stejný */}
